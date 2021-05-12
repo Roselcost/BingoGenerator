@@ -1,0 +1,191 @@
+<app-modal [@animateLeave] [type]="'full'" *ngIf="displayHelp">
+  <h2>{{getString('help')}}</h2>
+  <div style="padding:20px;text-align: justify" [innerHTML]="getString('helpText')"></div>
+  <share-buttons [url]="'https://roselcost.github.io/bingogenerator'"
+                 [include]="['twitter', 'facebook', 'reddit', 'tumblr', 'telegram', 'vk', 'messenger', 'whatsapp', 'line', 'copy']"></share-buttons>
+</app-modal>
+<app-modal [@animateLeave] [type]="'short'" *ngIf="displayMultipleImages">
+  <h2>{{getString('uploadMultipleImages')}}</h2>
+  <p style="text-align: center">{{getString('uploadMultipleImagesText')}}</p>
+  <app-imageupload [compress]="true" (uploadImage)="uploadImages($event)" [multiple]="true"></app-imageupload>
+</app-modal>
+<app-modal [@animateLeave] [type]="'short'" *ngIf="displayBgImage">
+  <h2>{{getString('bgImage')}}</h2>
+  <p>{{getString('croppingImage')}}</p>
+  <image-cropper
+    [ngStyle]="{'border': '1px dotted black'}"
+    [cropper]="getSelectedCoordinates()"
+    [imageBase64]="getBgImage()"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="bgAspectRatio()"
+    format="png"
+    (imageLoaded)="imageLoaded()"
+    (imageCropped)="imageCropped($event)"
+    (cropperReady)="cropReady($event)"
+  ></image-cropper>
+</app-modal>
+<app-modal [@animateLeave] [type]="'short'" *ngIf="displayBanner">
+  <h2>{{getString('banner')}}</h2>
+  <p>{{getString('croppingBanner')}}</p>
+  <image-cropper
+    [ngStyle]="{'border': '1px dotted black'}"
+    [cropper]="getSelectedCoordinates()"
+    [imageBase64]="getBanner()"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="bannerAspectRatio()"
+    format="png"
+    (imageLoaded)="imageLoaded()"
+    (imageCropped)="imageCropped($event, true)"
+    (cropperReady)="cropReady($event, true)"
+  ></image-cropper>
+</app-modal>
+<app-modal [@animateLeave] [type]="'short'" *ngIf="displayOptions">
+  <h2>{{getString('language')}}</h2>
+  <div class="fullW flexCenter flexWrap" style="margin-bottom: 20px;">
+    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'en' ? 'active' : ''" (click)="changeLanguage('en')">English</button>
+    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'es' ? 'active' : ''" (click)="changeLanguage('es')">Español</button>
+    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'ca' ? 'active' : ''" (click)="changeLanguage('ca')">Català</button>
+<!--    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'fr' ? 'active' : ''" (click)="changeLanguage('fr')">Français</button>-->
+<!--    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'de' ? 'active' : ''" (click)="changeLanguage('de')">Deutsch</button>-->
+<!--    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'it' ? 'active' : ''" (click)="changeLanguage('it')">Italiano</button>-->
+<!--    <button class="radioOption" style="width: unset" [ngClass]="getLanguage() === 'jp' ? 'active' : ''" (click)="changeLanguage('jp')">日本語</button>-->
+  </div>
+  <h2>{{getString('theme')}}</h2>
+  <div class="fullW flexCenter flexWrap">
+    <button (click)="setTheme('dark')" [ngClass]="getTheme() === 'dark' ? 'active' : ''"
+            class="radioOption" style="width: unset">{{getString('dark')}}</button>
+    <button (click)="setTheme('light')" [ngClass]="getTheme() === 'light' ? 'active' : ''"
+            class="radioOption" style="width: unset">{{getString('light')}}</button>
+  </div>
+</app-modal>
+<app-modal [@animateLeave] [type]="'warning'" *ngIf="displayReset">
+  <h2>{{getString('resetBingo')}}</h2>
+  <p>{{getString('resetBingoText')}}</p>
+</app-modal>
+<app-modal [@animateLeave] [type]="'short'" *ngIf="displaySave">
+  <h2>{{getString('saveBingo')}}</h2>
+  <p>{{getString('saveBingoText')}}</p>
+  <button (click)="saveBingo()"><i class="fa fa-file-download marginRightBit"></i>{{getString('save')}}</button>
+</app-modal>
+<div class="appLimits flexCenter flexCol">
+  <h1>Bingo Generator</h1>
+  <nav>
+    <ul class="flexCenter">
+      <li (click)="showHelp()">{{getString('help')}}</li>
+      <li (click)="showOptions()">{{getString('options')}}</li>
+    </ul>
+  </nav>
+  <div class="flexCenter flexCol fullW">
+    <div class="outer" style="min-width: min(425px, 100vw); width: 80%">
+      <div class="inner flexCenter flexCol">
+        <div class="flexHCenter flexWrap" style="align-items: flex-start; height: 460px">
+          <div class="optionBlock">
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('markerColor')}}</label>
+              <span class="fullW optionDescription">{{getString('markerDesc')}}</span>
+              <button [colorPicker]="getMarkerColor()" (colorPickerChange)="setMarkerColor($event)"
+                      [style.background]="getMarkerColor()">
+                <i class="fa fa-paint-brush stroke"></i>
+              </button>
+              <label class="fullW">{{getString('bgColor')}}</label>
+              <span class="fullW optionDescription">{{getString('bgDesc')}}</span>
+              <button [colorPicker]="getBgColor()" (colorPickerChange)="setBgColor($event)"
+                      [style.background]="getBgColor()"><i class="fa fa-paint-brush stroke"></i></button>
+            </div>
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('colorPalette')}}</label>
+              <span class="fullW optionDescription">{{getString('colorPaletteDesc')}}</span>
+              <div *ngFor="let palette of palettes" class="basicButton animEase02 colorPalette flexCenter"
+                   (click)="setPalette(palette.marker, palette.bg)">
+                <div class="halfW fullH" [ngStyle]="{'background-color': palette.marker}"></div>
+                <div class="halfW fullH" [ngStyle]="{'background-color': palette.bg}"></div>
+              </div>
+            </div>
+          </div>
+          <div class="optionBlock">
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('bgImage')}}</label>
+              <span class="fullW optionDescription">{{getString('bgImageDesc')}}</span>
+              <app-imageupload [realpath]="getBgImage()" (uploadImage)="setBgImage($event)"></app-imageupload>
+              <button [disabled]="getBgImage() === ''" (click)="showBgImage()">{{getString('adjust')}}...</button>
+            </div>
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('banner')}}</label>
+              <span class="fullW optionDescription">{{getString('bannerDesc')}}</span>
+              <app-imageupload [realpath]="getBanner()" (uploadImage)="setBanner($event)"></app-imageupload>
+              <button [disabled]="getBanner() === ''" (click)="showBanner()">{{getString('adjust')}}...</button>
+            </div>
+          </div>
+          <div class="optionBlock">
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('colorScheme')}}</label>
+              <span class="fullW optionDescription">{{getString('colorSchemeDesc')}}</span>
+              <div class="fullW flexBwn">
+                <button (click)="setColorScheme('dark')" [ngClass]="getColorScheme() === 'dark' ? 'active' : ''"
+                        class="radioOption">{{getString('dark')}}</button>
+                <button (click)="setColorScheme('light')" [ngClass]="getColorScheme() === 'light' ? 'active' : ''"
+                        class="radioOption">{{getString('light')}}</button>
+              </div>
+              <label class="fullW">{{getString('separateSquares')}}</label>
+              <span class="fullW optionDescription">{{getString('separateSquaresDesc')}}</span>
+              <app-increment-button [bottomLimit]="0" [topLimit]="5" (modified)="setSeparatedSquares($event)"
+                                    [value]="getSeparatedSquares()"></app-increment-button>
+              <label class="fullW">{{getString('roundBorderSquares')}}</label>
+              <span class="fullW optionDescription">{{getString('roundBorderSquaresDesc')}}</span>
+              <app-increment-button [bottomLimit]="0" [topLimit]="5" (modified)="setRoundBorderSquares($event)"
+                                    [value]="getRoundBorderSquares()"></app-increment-button>
+            </div>
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('blurBgImage')}}</label>
+              <span class="fullW optionDescription">{{getString('blurBgImageDesc')}}</span>
+              <app-increment-button [bottomLimit]="0" [topLimit]="10" (modified)="setBlurBgImage($event)"
+                                    [value]="getBlurBgImage()"></app-increment-button>
+              <label class="fullW">{{getString('uploadMultipleImages')}}</label>
+              <span class="fullW optionDescription">{{getString('uploadMultipleImagesDesc')}}</span>
+              <button (click)="showMultipleImages()">{{getString('upload')}}...</button>
+            </div>
+          </div>
+          <div class="optionBlock">
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('dimensions')}}</label>
+              <span class="fullW optionDescription">{{getString('dimensionsDesc')}}</span>
+              <app-increment-button [bottomLimit]="1" (modified)="setDimensions(0, $event)"
+                                    [value]="getDimensions(0)"></app-increment-button>
+              <i class="fa fa-times" style="font-size: 12px"></i>
+              <app-increment-button [bottomLimit]="1" (modified)="setDimensions(1, $event)"
+                                    [value]="getDimensions(1)"></app-increment-button>
+              <label class="fullW">{{getString('extraSquares')}}</label>
+              <span class="fullW optionDescription">{{getString('extraSquaresDesc')}}</span>
+              <app-increment-button (modified)="setExtras($event)"></app-increment-button>
+            </div>
+            <div class="option flexVCenter flexWrap">
+              <label class="fullW">{{getString('loadSave')}}</label>
+              <span class="fullW optionDescription">{{getString('loadSaveDesc')}}</span>
+              <div class="flexCenter divButton hoverButton" style="position:relative;">
+                <input class="fullWH" type="file" style="z-index: 2;opacity: 0;position: absolute;"
+                       (change)="loadBingo($event)">
+                <span><i class="fa fa-file-upload marginRightBit"></i>{{getString('load')}}</span>
+              </div>
+              <button (click)="showSave()"><i class="fa fa-file-download marginRightBit"></i>{{getString('save')}}
+              </button>
+              <button (click)="showReset()"><i class="fa fa-redo marginRightBit"></i>{{getString('reset')}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outer" style="min-width: min(528px, 100vw); max-width: 80%">
+      <div class="inner flexCenter flexCol">
+        <app-board class="fullW" [mode]="mode"></app-board>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <hr>
+  <div class="flexCenter">
+    <div style="font-size: 12px;"> {{getString('madeWith')}} <a
+      href="https://twitter.com/roselcost" target="_blank">Daniel Larrosa</a></div>
+  </div>
+</footer>
+

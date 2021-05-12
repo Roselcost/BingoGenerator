@@ -1,0 +1,23 @@
+.myModal {
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.closeButton{
+  min-width: 30px; width: 30px; height: 30px;
+}
+
+.fullModal {
+  max-width: 1500px;
+}
+
+::ng-deep app-modal {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  z-index: 5;
+}

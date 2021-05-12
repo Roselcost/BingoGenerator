@@ -1,0 +1,5 @@
+<div class="flexCenter divButton" style="user-select: none; padding: 0">
+  <button [disabled]="value <= bottomLimit" (click)="changeVal(-1)" class="basicButton fullH flexCenter control">-</button>
+  <div style="border-left:1px solid #878e99;border-right:1px solid #878e99;width: 30px" class="fullH flexCenter">{{value}}</div>
+  <button [disabled]="value >= topLimit" (click)="changeVal(1)" class="basicButton fullH flexCenter control">+</button>
+</div>

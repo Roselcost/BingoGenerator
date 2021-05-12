@@ -1,0 +1,17 @@
+<div style="position:relative" class="fullWH flexCenter">
+  <div (click)="cancel()" [@inOutAnimationFast] class="fixedOverlay"></div>
+  <div [@expandAnimation] class="myModal outer" #mymodal [ngClass]="setFullModal()" [ngStyle]="setModalStyle()">
+    <div class="inner fullWH" style="max-height: 90vh;">
+      <button class="button closeButton" *ngIf="type !== 'warning'" (click)="cancel()">
+        <i class="fa fa-times"></i>
+      </button>
+      <div class="flexCenter flexCol">
+        <ng-content></ng-content>
+        <div *ngIf="type === 'warning'">
+          <button (click)="accept()">Yes</button>
+          <button (click)="cancel()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

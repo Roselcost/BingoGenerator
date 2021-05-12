@@ -1,0 +1,378 @@
+@import '~ngx-sharebuttons/themes/default/default-theme';
+
+/* General Styles */
+body {
+  font-family: Poppins, sans-serif !important;
+  background-image: var(--bgImage);
+  background-color: var(--mainBgColor);
+  color: var(--main);
+  box-sizing: border-box;
+  scrollbar-color: #ffffff57 #48444400;
+  scrollbar-width: thin;
+  margin: 0;
+
+  --bgImage: url("assets/3px-tile-original.png");
+  --cropper-overlay-color: #282a2d;
+  --cropper-outline-color: #0000;
+  --outerShadow: 0 1px 2px rgb(27, 31, 35), 0 0 1px rgb(106, 115, 125);
+  --buttonShadow: 0 1px 2px rgb(27, 31, 35), 0 0 1px rgb(106, 115, 125);
+  --buttonBorder: #4a4e55;
+  --mainBgColor: #373737;
+  --outerBorder: #00000080;
+  --innerBorder: #49494b;
+  --background1: #2f3032;
+  --activeButton: #1e789b;
+  --focusedButton: #2ca3d2;
+  --inputBg: #5b5b5b44;
+  --buttonBg: #424242;
+  --description: #dddddd;
+  --disabled: #6c6c6c;
+  --main: #fff;
+}
+
+body.light {
+  --bgImage: url("assets/3px-tile.png");
+  --cropper-overlay-color: #282a2d;
+  --cropper-outline-color: #0000;
+  --outerShadow: 0 1px 2px #9b9b9b, 0 0 1px #6a737d;
+  --buttonShadow: 0 1px 2px #9b9b9b, 0 0 1px #6a737d;
+  --buttonBorder: #fff;
+  --mainBgColor: #fff;
+  --outerBorder: #00000080;
+  --innerBorder: #c9c9d5;
+  --background1: #f4f4f4;
+  --activeButton: #c4edff;
+  --focusedButton: #99e4ff;
+  --inputBg: #a2a2a245;
+  --buttonBg: #dfdfdf;
+  --description: #555;
+  --disabled: #adafb0;
+  --main: #313131;
+}
+
+*::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: #48444400; /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ffffff57; /* color of the scroll thumb */
+  border-radius: 2px; /* roundness of the scroll thumb */
+}
+
+h2 {
+  margin: 0 0 20px 0;
+  box-sizing: content-box;
+}
+
+.inner {
+  border: 2px solid var(--innerBorder);
+  padding: 10px;
+  border-radius: 4px;
+  color: var(--main);
+  box-sizing: border-box;
+  overflow: auto;
+  /*  position: relative;*/
+}
+
+nav {
+  user-select: none;
+}
+
+.outer {
+  border: 1.5px solid var(--outerBorder);
+  background-color: var(--background1);
+  border-radius: 5px;
+  box-shadow: var(--outerShadow);
+  margin: 10px;
+  position: relative;
+  /*  box-sizing: border-box;
+    overflow: auto;
+    padding: 10px;*/
+}
+
+/*.outer::before{
+  border: 2px solid #49494b;
+  border-radius: 5px;
+  color: white;
+  box-sizing: border-box;
+  overflow: auto;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}*/
+
+* {
+  box-sizing: border-box;
+}
+
+.appLimits {
+  max-width: 1500px;
+  margin: auto;
+}
+
+/*
+   .basicbutton: removes some button styling
+   .divbutton: only the button styles with no hover
+   .hoverbutton: only the hover button styles with no button styles
+ */
+.basicButton {
+  border-radius: 0;
+  margin: 0;
+  border: none;
+  min-width: unset;
+  box-shadow: none;
+}
+
+a {
+  color: var(--main);
+}
+
+button, .divButton {
+  border-radius: 5px;
+  margin: 5px;
+  background-color: var(--buttonBg);
+  border: 1px solid var(--buttonBorder);
+  color: var(--main);
+  height: 30px;
+  padding: 5px;
+  min-width: 70px;
+  font-family: Poppins, sans-serif;
+  font-size: 13px;
+  box-shadow: var(--buttonShadow)
+}
+
+button:hover:not(button:disabled), .hoverButton:hover {
+  background-color: var(--focusedButton);
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+button:active:not(button:disabled), .hoverButton:active {
+  background-color: var(--activeButton);
+}
+
+button:disabled {
+  color: var(--disabled);
+}
+
+.mainAction {
+  background-color: var(--activeButton);
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  margin: 10px;
+  cursor: pointer;
+  color: var(--description);
+}
+
+li:hover {
+  color: var(--main);
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+input {
+  font-family: Poppins, sans-serif;
+  background-color: var(--inputBg);
+  color: var(--main);
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid #555b5e;
+}
+
+textarea {
+  background-color: var(--inputBg);
+  border: black;
+  color: var(--main);
+  font-family: Poppins, sans-serif;
+  font-size: 10pt;
+}
+
+textarea:focus-visible {
+  outline: 2px solid var(--main);
+}
+
+footer {
+  margin-top: 50px;
+}
+.stroke{
+  color: white;
+  text-shadow:
+    0.07em 0 black,
+    0 0.07em black,
+    -0.07em 0 black,
+    0 -0.07em black;
+}
+
+/* CENTER SHARE BUTTONS */
+
+.sb-default{
+  justify-content: center;
+}
+
+/* FONTS */
+@font-face {
+  font-family: Poppins;
+  src: url('./assets/fonts/Poppins/Poppins-Regular.ttf') format("opentype");
+}
+
+/* PERSONAL FRAMEWORK */
+.fullWH {
+  width: 100%;
+  height: 100%;
+}
+
+.fullW {
+  width: 100%;
+}
+
+.fullH {
+  height: 100%;
+}
+
+.halfWH {
+  width: 50%;
+  height: 50%;
+}
+
+.halfW {
+  width: 50%;
+}
+
+.halfH {
+  height: 50%;
+}
+
+.flexStart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexBwn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexHEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flexVEnd {
+  display: flex;
+  align-items: flex-end;
+}
+
+.flexVCenter {
+  display: flex;
+  align-items: center;
+}
+
+.flexHCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.flexCol {
+  flex-direction: column;
+}
+
+.flexEven {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+.animEase02 {
+  transition-duration: .2s;
+  transition-timing-function: ease;
+}
+
+.animEase05 {
+  transition-duration: .5s;
+  transition-timing-function: ease;
+}
+
+.whiteBorder {
+  border: 1px solid white;
+}
+
+.blackBorder {
+  border: 1px solid black;
+}
+
+.marginTopBit {
+  margin-top: 15px;
+}
+
+.marginRightBit {
+  margin-right: 10px;
+}
+
+.marginBottomBit {
+  margin-bottom: 20px;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.fixedOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000000;
+  opacity: 0.5;
+  z-index: 5;
+}
+
+.fixedOverlayClear {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 10;
+}
+
+.fixedOverlayBlur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  backdrop-filter: blur(3px);
+}

@@ -1,0 +1,40 @@
+.option{
+  margin:10px;
+  width:260px;
+/*  height: 210px;*/
+  align-content: flex-start;
+}
+.optionBlock{
+  display:flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.optionDescription{
+  font-size:11px;
+  color: var(--description);
+  height: 34px;
+}
+.radioOption{
+  width:48%;
+  text-align: center;
+}
+.radioOption.active{
+  background: var(--activeButton);
+}
+.radioOption:hover{
+  background: var(--focusedButton);
+}
+.colorPalette{
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 5px;
+  border: 1px solid var(--buttonBorder);
+  height: 30px;
+  width: 60px;
+  box-shadow: 0 1px 2px rgb(27, 31, 35), 0 0 1px rgb(106, 115, 125);
+}
+
+.colorPalette:hover{
+  border: 2px solid var(--focusedButton);
+}

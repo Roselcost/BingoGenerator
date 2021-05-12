@@ -1,0 +1,149 @@
+<app-modal [@animateLeave] [type]="'warning'" *ngIf="displayClearAll">
+  <h2>{{getString('clearMarkers')}}</h2>
+  <p>{{getString('clearText')}}</p>
+</app-modal>
+<app-modal [@animateLeave] [type]="'short'" *ngIf="displayCrop">
+  <h2>{{getSquareName(selected.id)}}</h2>
+  <p>{{getString('croppingImage')}}</p>
+  <image-cropper
+    [ngStyle]="{'border': '1px dotted black'}"
+    [cropper]="getSelectedCoordinates()"
+    [cropperStaticHeight]="150"
+    [cropperStaticWidth]="150"
+    [imageBase64]="getImageSquare(selected.id, selected.extra)"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="1"
+    format="png"
+    (imageLoaded)="imageLoaded()"
+    (imageCropped)="imageCropped($event, selected.extra)"
+    (cropperReady)="cropReady($event, selected.extra)"
+  ></image-cropper>
+</app-modal>
+<app-modal [@animateLeave] [type]="'full'" *ngIf="displayShare">
+  <h2>{{getString('share')}}</h2>
+  <p style="text-align: center">{{getString('shareText')}}</p>
+  <div class="flexCenter" *ngIf="!bingoReady">
+    <span>{{getString('loading')}}</span>
+    <app-loading></app-loading>
+  </div>
+  <button (click)="downloadBingo()" *ngIf="bingoReady">{{getString('download')}}</button>
+  <share-buttons [url]="'https://roselcost.github.io/bingogenerator'"
+                 [include]="['twitter', 'facebook', 'reddit', 'tumblr', 'telegram', 'vk', 'messenger', 'whatsapp', 'line']"></share-buttons>
+  <div class="marginBottomBit" #bingoResult>
+    <img alt="bingo" style="max-width: 100%" src="">
+  </div>
+</app-modal>
+<div class="flexEnd marginBottomBit">
+  <div [ngClass]="mode === 'edit' ? 'editMode' : mode === 'move' ? 'moveMode' : 'viewMode'">
+    <b>{{getString('mode')}}</b>: {{mode === 'edit' ? getString('edit') : mode === 'move' ? getString('move') : getString('view')}}
+  </div>
+</div>
+<div style="overflow:auto;max-width: 100%;">
+  <div class="" #bingo [ngStyle]="setOuterStyle()">
+    <div class="animEase02 bgBingo" [ngStyle]="{'background-color': getBgColor()}">
+      <div [ngStyle]="setBingoBgStyle()" class="animEase02"></div>
+    </div>
+    <div style="height:80px;position: relative" class="flexVCenter">
+      <h2 *ngIf="mode !== 'edit'" #el [ngStyle]="setHeaderStyle(el)">{{getEventTitle()}}</h2>
+      <input [ngStyle]="setHeaderInputStyle()" *ngIf="mode === 'edit'" (ngModelChange)="setEventTitle($event)"
+             [ngModel]="getEventTitle()" type="text" class="headerInput"
+             maxlength="75" placeholder="{{getString('bingoTitlePlaceholder')}}">
+      <div style="position: absolute" class="fullWH">
+        <div [ngStyle]="setBannerStyles()" class="fullWH animEase02"></div>
+      </div>
+    </div>
+    <div class="flexCenter" [ngStyle]="setInnerStyle()">
+      <div [sortablejs]="getSquares()" [sortablejsOptions]="{'disabled': this.mode !== 'move'}"
+           class="flexHCenter flexWrap" style="align-content: flex-start;overflow:hidden">
+        <div appDragndropupload (fileDropped)="uploadImage($event, i, true)"
+             *ngFor="let square of getSquares() | slice:0:getDimensions(0) * getDimensions(1); let i = index"
+             class="group flexCenter flexWrap" style="position:relative;overflow: hidden" [ngStyle]="setBgSquareStyle()">
+          <div class="fullWH animEase02" style="overflow: hidden;position:absolute;" [ngStyle]="setBgSquareStyleInner(i)"></div>
+          <div (click)="markSquare('d', i)"
+               (mouseenter)="setFocused(i)"
+               (mouseleave)="setFocused(-1)" style="position:relative;"
+               class="square flexHCenter flexVEnd flexCol"
+               [ngStyle]="setStyleSquare(square, i)">
+            <div *ngIf="mode === 'edit'" class="buttonsSquare flexCenter" [ngStyle]="setStyleButtonsSquare(i)">
+              <div *ngIf="getImageSquare(i) !== ''" (click)="removeImage(i)" title="{{getString('removeImage')}}" class="buttonSquare flexCenter"><i
+                class="fa fa-times"></i></div>
+              <div class="buttonSquare flexCenter" title="{{getString('uploadImage')}}">
+                <input accept="image/x-png,image/gif,image/jpeg" #image class="fullWH" type="file"
+                       style="z-index: 2;opacity: 0;position: absolute;"
+                       (change)="uploadImage($event, i, false)">
+                <i class="fa fa-upload"></i>
+              </div>
+              <div *ngIf="getImageSquare(i) !== ''" (click)="editSquare($event, i)" title="{{getString('cropImage')}}" class="buttonSquare flexCenter"><i
+                class="fa fa-crop-alt"></i></div>
+            </div>
+            <div class="flexCenter fullWH" style="overflow: hidden" *ngIf="mode !== 'edit'">
+              <div class="fullW" style="word-break: break-word" #el [ngStyle]="setFontSize(el)">{{square.name}}</div>
+            </div>
+            <textarea maxlength="150" *ngIf="mode === 'edit'" placeholder="{{getString('square') + ' #' + (i+1)}}" spellcheck="false" [(ngModel)]="square.name" type="text"
+                      [ngStyle]="setTextAreaStyle(i)"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="getExtras() > 0 && mode !== 'edit'" style="height:80px;position: relative" class="flexVCenter">
+      <h2 #el [ngStyle]="setHeaderStyle(el)">{{getExtraTitle()}}</h2>
+    </div>
+    <input [ngStyle]="setHeaderInputStyle()" *ngIf="getExtras() > 0 && mode === 'edit'"
+           (ngModelChange)="setExtraTitle($event)"
+           [ngModel]="getExtraTitle()" type="text" class="headerInput"
+           maxlength="75" placeholder="{{getString('bingoExtrasPlaceholder')}}">
+    <div [sortablejs]="getExtraSquares()" [sortablejsOptions]="{'disabled': this.mode !== 'move'}"
+         class="flexCenter flexWrap" style="align-content: flex-start;overflow:hidden">
+      <div appDragndropupload (fileDropped)="uploadImage($event, i, true, true)"
+           *ngFor="let square of getExtraSquares() | slice:0:getExtras(); let i = index"
+           class="group flexCenter flexWrap" style="position:relative;overflow: hidden" [ngStyle]="setBgSquareStyle()">
+        <div class="fullWH" style="overflow: hidden;position:absolute;" [ngStyle]="setBgSquareStyleInner(i, true)"></div>
+        <div (click)="markSquare('e', i)"
+             (mouseenter)="setFocused(i, true)"
+             (mouseleave)="setFocused(-1)" style="position:relative;"
+             class="square flexHCenter flexVEnd flexCol"
+             [ngStyle]="setStyleSquare(square, i, true)">
+          <div *ngIf="mode === 'edit'" class="buttonsSquare flexCenter" [ngStyle]="setStyleButtonsSquare(i, true)">
+            <div *ngIf="getImageSquare(i, true) !== ''" (click)="removeImage(i, true)" title="{{getString('removeImage')}}" class="buttonSquare flexCenter"><i
+              class="fa fa-times"></i></div>
+            <div class="buttonSquare flexCenter" title="{{getString('uploadImage')}}">
+              <input accept="image/x-png,image/gif,image/jpeg" #imageextra class="fullWH" type="file"
+                     style="z-index: 2;opacity: 0;position: absolute;"
+                     (change)="uploadImage($event, i, false, true)">
+              <i class="fa fa-upload"></i>
+            </div>
+            <div *ngIf="getImageSquare(i, true) !== ''" (click)="editSquare($event, i, true)" title="{{getString('cropImage')}}" class="buttonSquare flexCenter"><i
+              class="fa fa-crop-alt"></i></div>
+          </div>
+
+          <div class="flexCenter fullWH" style="overflow: hidden"
+               *ngIf="mode !== 'edit'">
+            <div class="fullW" style="word-break: break-word" #el [ngStyle]="setFontSize(el)">{{square.name}}</div>
+          </div>
+          <textarea maxlength="150" *ngIf="mode === 'edit'" placeholder="{{getString('extra') + ' #' + (i+1)}}" spellcheck="false" [(ngModel)]="square.name" type="text"
+                    [ngStyle]="setTextAreaStyle(i, true)"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="mode === 'view'" class="flexEven marginTopBit">
+  <div class="flexCenter flexCol">
+    <span>{{getString('score')}}</span>
+    <b [ngStyle]="getStyleSpecial()" *ngIf="getNumberLines() > 0">{{getSpecial()}}</b>
+  </div>
+  <div class="flexCenter flexCol">
+    <span>{{markedSquares()}} {{getString('of')}} {{getDimensions(0) * getDimensions(1)}}</span>
+    <span style="color:#daa520" *ngIf="getExtras() > 0">{{markedExtras()}} {{getString('of')}} {{getExtras()}}</span>
+  </div>
+</div>
+<div class="flexCenter marginTopBit">
+  <button class="mainAction" *ngIf="mode === 'view'" (click)="mode = 'edit'">{{getString('edit')}}</button>
+  <button class="mainAction" *ngIf="mode === 'edit'" (click)="mode = 'view'">{{getString('save')}}</button>
+  <button class="mainAction" (click)="mode = 'move'" *ngIf="mode === 'edit'">{{getString('move')}}</button>
+  <button class="mainAction" (click)="mode = 'edit'" *ngIf="mode === 'move'">{{getString('done')}}</button>
+  <button (click)="shuffle()" *ngIf="mode === 'edit'">{{getString('shuffle')}}</button>
+  <button (click)="toggleBlur()" *ngIf="mode === 'edit'">{{getString('blur')}}</button>
+  <button (click)="share()" *ngIf="mode === 'view'">{{getString('share')}}</button>
+  <button (click)="clearAll()" *ngIf="mode === 'view'">{{getString('clearMarkers')}}</button>
+</div>

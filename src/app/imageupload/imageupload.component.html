@@ -1,0 +1,35 @@
+<div class="remove">
+  <div *ngIf="removing" class="fullW flexHEnd flexVCenter confirm">
+    <div class="flexCenter" style="font-size: 12px">
+      <span style="margin-right: 5px;">{{getString('removeImage')}}?</span>
+      <button (click)="removeImage()" type="button" class="flexCenter buttonImgUpload">
+        <i class="fas fa-check noMargin"></i>
+      </button>
+      <button (click)="removing = false" type="button" class="flexCenter buttonImgUpload">
+        <i class="fas fa-times noMargin"></i>
+      </button>
+    </div>
+  </div>
+  <div class="fullW flexHEnd flexVCenter" style="height: 22px">
+    <button [disabled]="realpath === ''" (click)="removing = true" type="button"
+            class="deleteButton flexCenter noMargin buttonImgUpload">
+      <i class="fas fa-times noMargin"></i>
+    </button>
+  </div>
+</div>
+
+<div class="dropzone flexCenter" appDragndropupload (fileDropped)="uploadFile($event, 'drop')">
+  <input class="inputDropZone fullH" type="file" accept="image/x-png,image/gif,image/jpeg"
+         #fileDropRef [multiple]="multiple"
+         (change)="uploadFile($event, 'change')">
+  <img alt="uploadedimage" class="fullWH" style="object-fit:contain;" *ngIf="realpath !== '' && !loading"
+       src="{{realpath}}">
+  <div *ngIf="loading">
+    <app-loading></app-loading>
+  </div>
+  <div *ngIf="realpath === '' && !loading"
+       class="uploadMessage">
+    <div style="margin-bottom:10px"><i style="margin:0" class="fa fa-upload"></i></div>
+    <div><span>{{getString('imageInstructions')}}</span></div>
+  </div>
+</div>

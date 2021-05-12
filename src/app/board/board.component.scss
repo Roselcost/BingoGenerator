@@ -1,0 +1,101 @@
+.viewMode {
+  color: rgb(123, 205, 76);
+  border: 1px solid rgb(69, 115, 43);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.editMode {
+  color: rgb(229, 97, 97);
+  border: 1px solid rgb(120, 43, 43);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.moveMode {
+  color: #44a3c6;
+  border: 1px solid rgb(43, 100, 123);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.bgBingo {
+  overflow: hidden;
+  position: absolute;
+  z-index: 0;
+}
+
+.headerInput {
+  width: 100%;
+  height: 40px;
+  position: relative;
+  z-index: 1;
+  font-size: 20pt;
+  margin: 20px 0 20px 0;
+}
+
+
+
+
+
+.fileover .square {
+  border: 1px solid deepskyblue !important;
+  color: deepskyblue;
+}
+
+.square {
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  user-select: none;
+  z-index: 1;
+  position: relative;
+  box-sizing: border-box;
+  font-size: 10pt;
+}
+
+.buttonsSquare {
+  border: 1px solid var(--buttonBorder);
+  border-radius: 5px;
+  background-color: var(--buttonBg);
+  box-shadow: 0 1px 15px rgb(27, 31, 35), 0 0 1px rgb(106, 115, 125);
+}
+
+.buttonSquare {
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  position: relative;
+}
+
+
+.buttonSquare:first-child:hover {
+  border-radius: 4px 0 0 4px;
+}
+
+.buttonSquare:last-child:hover {
+  border-radius: 0 4px 4px 0;
+}
+.buttonSquare:first-child:last-child:hover{
+  border-radius: 4px;
+}
+
+.buttonSquare:hover {
+  background-color: var(--focusedButton);
+}
+
+.buttonSquare:active i {
+  transform: translateY(0.5px);
+}
+
+// Sortable styles
+.sortable-chosen.sortable-ghost {
+  opacity: 0;
+}
+
+.sortable-fallback {
+  opacity: 1 !important;
+  backdrop-filter: blur(5px);
+  background-color: #39393988;
+  border: 1px solid white;
+}
