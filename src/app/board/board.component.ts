@@ -315,7 +315,8 @@ export class BoardComponent implements OnInit {
       position: 'relative',
       margin: 0,
       padding: '0 0 0 10px',
-      'word-wrap': 'break-word'
+      'word-wrap': 'break-word',
+      'z-index': 1
     };
   }
 

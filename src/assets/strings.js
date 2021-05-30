@@ -59,7 +59,7 @@ const english = {
     'in 10x10 bingos. Also, if you upload a big image as a background or banner, performance can be quite bad too. There is not much that can be done to improve that (already tried image compression) aside from implementing a ' +
     'backend, which I don\'t really want to for several reasons such as cost, maintenance, moderation of content, etc.</p>' +
     '<p>I really hope you enjoy using this application as much as I enjoyed making it. If you have any feedback or questions, feel free to contact me :)</p>' +
-    '<p>The code is available on Github</p>' +
+    '<p>The code is available on <a target="_blank" href="https://github.com/Roselcost/BingoGenerator">GitHub</a></p>' +
     '<p>This app is proudly made with ❤ by <a style="color:white" target="_blank" href="https://twitter.com/roselcost">Daniel Larrosa</p>',
   eventTitle: 'Event Title',
   extraSquaresTitle: 'Extra Squares',
@@ -156,7 +156,7 @@ const spanish = {
     'Además, si subes una imagen grande como fondo o banner, el rendimiento también puede ser bastante malo. No hay mucho que se pueda hacer para mejorar eso (ya he probado comprimiendo las imágenes) aparte de implementar un backend, ' +
     'lo que realmente no quiero hacer por varias razones como el coste, el mantenimiento, la moderación del contenido, etc.</p>' +
     '<p>Espero que disfrutes utilizando esta aplicación tanto como yo he disfrutado haciéndola. Si tienes algún comentario o pregunta, no dudes en ponerte en contacto conmigo :)</p>' +
-    '<p>El código está disponible en GitHub</p>' +
+    '<p>El código está disponible en <a target="_blank" href="https://github.com/Roselcost/BingoGenerator">GitHub</a></p>' +
     '<p>Esta aplicación está hecha con ❤ por <a style="color:white" target="_blank" href="https://twitter.com/roselcost">Daniel Larrosa</p>',
   eventTitle: 'Título del evento',
   extraSquaresTitle: 'Casillas extra',
@@ -251,7 +251,7 @@ const catalan = {
     'del navegador. Això afecta dramàticament al rendiment. Per bingos de 5x5 (el format més comú) no és tan dolent, però es nota molt en bingos de 10x10. A més, si puges una imatge gran com a fons o banner, el rendiment també pot ser bastant dolent. No hi ha molt que es pugui fer per ' +
     'millorar això (ja he provat comprimint les imatges) a part d\'implementar un backend, el que realment no vull fer per diverses raons com el cost, el manteniment, la moderació del contingut, etc.</p>' +
     '<p>Espero que gaudeixis utilitzant aquesta aplicació tant com jo he gaudit fent-la. Si tens algun comentari o pregunta, no dubtis a posar-te en contacte amb mi :)</p>' +
-    '<p>El codi està disponible en GitHub</p>' +
+    '<p>El codi està disponible a <a target="_blank" href="https://github.com/Roselcost/BingoGenerator">GitHub</a></p>' +
     '<p>Aquesta aplicació està feta amb ❤ per <a style="color:white" target="_blank" href="https://twitter.com/roselcost">Daniel Larrosa</p>',
   eventTitle: 'Títol de l\'esdeveniment',
   extraSquaresTitle: 'Caselles extra',
